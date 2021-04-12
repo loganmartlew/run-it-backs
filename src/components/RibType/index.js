@@ -2,14 +2,21 @@ import { useDB } from '../../context/DBContext';
 import Button from '../Button';
 import { RibTypeContainer, RibHeading, RibCount } from './RibTypeStyles';
 
-const RibType = ({ name, count, id }) => {
+const RibType = ({ name, count, id, total }) => {
   const { increment, decrement, deleteType } = useDB();
 
   return (
     <RibTypeContainer>
       <RibHeading>{name}</RibHeading>
       <RibCount>{count}</RibCount>
-      {id && (
+
+      {total ? (
+        <>
+          <th></th>
+          <th></th>
+          <th></th>
+        </>
+      ) : (
         <>
           <td>
             <Button onClick={() => increment(id)}>+</Button>

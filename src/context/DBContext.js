@@ -15,19 +15,18 @@ export const DBProvider = ({ children }) => {
   const ribTypesRef = firebase.firestore().collection('ribtype');
 
   const sortTypes = types => {
-    const actualTypes = types.filter(type => type.name !== 'Other');
+    const peopleTypes = types.filter(type => type.person === true);
+    peopleTypes.sort((a, b) => +b.count - +a.count);
 
-    const peopleTypes = actualTypes.filter(type => type.person === true);
-    peopleTypes.sort((a, b) => +a.count - +b.count);
+    const otherTypes = types.filter(type => type.person !== true);
+    otherTypes.sort((a, b) => +b.count - +a.count);
 
-    const otherTypes = actualTypes.filter(type => type.person !== true);
-
-    const other = types.find(type => type.name === 'Other');
-
-    return [...peopleTypes, ...otherTypes, other];
+    return [...peopleTypes, ...otherTypes];
   };
 
   useEffect(() => {
+    const ribTypesRef = firebase.firestore().collection('ribtype');
+
     setLoading(true);
 
     ribTypesRef.onSnapshot(querySnapshot => {
@@ -49,6 +48,14 @@ export const DBProvider = ({ children }) => {
     });
   }, []);
 
+  const addType = (name, count, person) => {
+    ribTypesRef.doc(name).set({
+      name,
+      count: +count,
+      person,
+    });
+  };
+
   const deleteType = id => {
     ribTypesRef.doc(id).delete();
   };
@@ -69,6 +76,7 @@ export const DBProvider = ({ children }) => {
     ribTypes,
     totalRibs,
     loading,
+    addType,
     deleteType,
     increment,
     decrement,
