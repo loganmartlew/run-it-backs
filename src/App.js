@@ -49,7 +49,7 @@ const App = () => {
       <Container>
         <TopBar>
           <Title>Run It Backs</Title>
-          <Icon src={logo} alt='logo' />
+          <Icon src={logo} alt='logo' width='64px' height='64px' />
         </TopBar>
 
         <Ribs setOpen={setOpen} />
