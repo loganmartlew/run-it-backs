@@ -10,6 +10,7 @@ Modal.setAppElement('#root');
 
 const Container = styled.main`
   margin: 0 auto;
+  margin-bottom: 6rem;
   width: max-content;
 `;
 
